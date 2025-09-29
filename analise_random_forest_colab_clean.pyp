@@ -3,17 +3,6 @@ Sistema Preditivo de Attrition - TechCorp Brasil
 ===============================================
 VERSÃO GOOGLE COLAB
 
-Desenvolvido para identificar funcionários com alto risco de deixar a empresa,
-permitindo ações preventivas do RH para reduzir custos de rotatividade.
-
-INSTRUÇÕES PARA GOOGLE COLAB:
-1. Execute todas as células em ordem
-2. Faça upload do arquivo CSV quando solicitado
-3. Escolha entre análise rápida ou completa
-
-Autor: Analista de Dados - TechCorp Brasil
-Data: Setembro 2025
-Versão: 2.0 - Colab Ready
 """
 
 # =====================================================

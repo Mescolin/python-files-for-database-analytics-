@@ -1095,12 +1095,25 @@ class AttritionAnalyzer:
         print(f"  ROI do projeto: 300-500%")
 
 
-def main():
+def main(run_optimization=True, data_path=None):
+    """
+    Função principal - execução do pipeline completo.
+    
+    Parâmetros:
+    -----------
+    run_optimization : bool, default=True
+        Se deve executar otimização de hiperparâmetros automaticamente
+    data_path : str, optional
+        Caminho para o arquivo CSV (se não especificado, usa o padrão)
+    """
     print("INICIANDO SISTEMA DE PREDIÇÃO DE ATTRITION - TECHCORP BRASIL")
     print("=" * 70)
     
     # Inicializar analisador
-    analyzer = AttritionAnalyzer()
+    if data_path:
+        analyzer = AttritionAnalyzer(data_path=data_path)
+    else:
+        analyzer = AttritionAnalyzer()
     
     # 1. Carregar dados
     if not analyzer.load_data():
@@ -1121,12 +1134,13 @@ def main():
     print(f"\nFASE 3: TREINAMENTO DE MODELOS")
     analyzer.train_models()
     
-    # 5. Otimização (opcional - pode ser demorado)
+    # 5. Otimização (controlada por parâmetro)
     print(f"\nFASE 4: OTIMIZAÇÃO DE HIPERPARÂMETROS")
-    response = input("Deseja executar otimização de hiperparâmetros? (s/n): ").lower()
-    
-    if response == 's':
+    if run_optimization:
+        print("Executando otimização automática...")
         analyzer.optimize_hyperparameters('random_forest_base')
+    else:
+        print("Otimização pulada - usando modelos base")
     
     # 6. Avaliação abrangente
     print(f"\nFASE 5: AVALIAÇÃO FINAL")
@@ -1137,6 +1151,38 @@ def main():
     analyzer.generate_report()
     
     print(f"\nANÁLISE CONCLUÍDA COM SUCESSO!")
+    print(f"O sistema está pronto para implementação em produção.")
+    print(f"Consulte as recomendações acima para os próximos passos.")
+    
+    return analyzer
+
+
+def run_quick_analysis(data_path=None):
+    """
+    Execução rápida sem otimização - ideal para Google Colab.
+    
+    Parâmetros:
+    -----------
+    data_path : str, optional
+        Caminho para o arquivo CSV
+    """
+    print("🚀 EXECUTANDO ANÁLISE RÁPIDA - GOOGLE COLAB")
+    print("=" * 50)
+    return main(run_optimization=False, data_path=data_path)
+
+
+def run_full_analysis(data_path=None):
+    """
+    Execução completa com otimização - pode ser demorada.
+    
+    Parâmetros:
+    -----------
+    data_path : str, optional
+        Caminho para o arquivo CSV
+    """
+    print("🔥 EXECUTANDO ANÁLISE COMPLETA")
+    print("=" * 35)
+    return main(run_optimization=True, data_path=data_path)
 
 
 # Execução do programa
